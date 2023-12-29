@@ -13,7 +13,4 @@ int setupio(void);
 void writepin(int pin, int value);
 int getpin(int pin);
 
-int gpiofd;
-unsigned int *gpio;
-
 #endif
