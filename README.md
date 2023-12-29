@@ -1,5 +1,5 @@
 # rpigpio
-##A lightweight, efficient Raspberry Pi 4 GPIO C Library
+##A lightweight, efficient Raspberry Pi 4 Model B GPIO C Library
 
 ## Usage
 
