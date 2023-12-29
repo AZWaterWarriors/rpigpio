@@ -38,7 +38,7 @@ void writepin(int pin, int value){
 
 };
 
-void getpin(int pin){
+int getpin(int pin){
 
 	gpio[(pin > 9)] = 0; /* Set pin to input mode */
 	

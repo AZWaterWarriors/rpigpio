@@ -2,11 +2,11 @@ all: librpigpio.a
 
 .PHONY: clean
 
-rpigpio.o: gpio.c
+gpio.o: gpio.c
 	gcc -c gpio.c
 
-librpigpio.a: rpigpio.o
-	ar -rc librpigpio.a rpigpio.o
+librpigpio.a: gpio.o
+	ar -rc librpigpio.a gpio.o
 
 clean:
 	rm -rf *.o
