@@ -1,10 +1,11 @@
 /*
  *
- * Water Warriors Moisture Harvester Control System
+ * Small GPIO Library for Raspberry Pi 4 Model B
  *
  * Electronics control routines
  *
  */
+
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -12,12 +13,8 @@
 #include "electronics.h"
 
 int setupio(void);
-void fans(int onoff);
-void peltier(int onoff);
-void fans2(int onoff);
-
 void writepin(int pin, int value);
-int readpin(int pin);
+int getpin(int pin);
 
 int gpiofd;
 unsigned int *gpio;
@@ -41,28 +38,10 @@ void writepin(int pin, int value){
 
 };
 
-void readpin(int pin){
+void getpin(int pin){
 
 	gpio[(pin > 9)] = 0;
 	
 	return (gpio[13] & (1<<(pin)));
-
-};
-
-void fans(int onoff){
-
-	writepin(FAN_PIN, onoff);
-
-};
-
-void peltier(int onoff){
-
-	writepin(PELT_PIN, onoff);
-
-};
-
-void fans2(int onoff){
-
-	writepin(FAN2_PIN, onoff);
 
 };

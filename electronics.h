@@ -1,6 +1,6 @@
 /*
  *
- * Water Warriors Moisture Harvester Control System
+ * Small GPIO Library for Raspberry Pi 4 Model B
  *
  * Electronics control routines
  *
@@ -9,14 +9,9 @@
 #ifndef _ELECTRONICS_H
 #define _ELECTRONICS_H
 
-#define FAN_PIN
-#define PELT_PIN
-#define FAN2_PIN
-
 int setupio(void);
-void fans(int onoff);
-void peltier(int onoff);
-void fans2(int onoff);
+void writepin(int pin, int value);
+int getpin(int pin);
 
 int gpiofd;
 unsigned int *gpio;
