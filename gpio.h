@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef _ELECTRONICS_H
-#define _ELECTRONICS_H
+#ifndef _GPIO_H
+#define _GPIO_H
 
 int setupio(void);
 void writepin(int pin, int value);

@@ -10,7 +10,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-#include "electronics.h"
+#include "gpio.h"
 
 int setupio(void);
 void writepin(int pin, int value);
