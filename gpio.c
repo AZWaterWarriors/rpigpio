@@ -16,13 +16,13 @@ int setupio(void);
 void writepin(int pin, int value);
 int getpin(int pin);
 
-int gpiofd;
-unsigned int *gpio;
+int gpiofd; /* File descriptor for /dev/gpiomem (mmap'd pinout) */
+unsigned int *gpio; /* Pointer to mmap'd pinout */
 
 int setupio(){
 
 	gpiofd = open("/dev/gpiomem", O_RDWR);
-	if (gpiofd < 0) { return -1; };
+	if (gpiofd < 0) { return -1; }; /* Fail if unable to open */
 
 	gpio = (unsigned int *)mmap(0, 4096, PROT_READ+PROT_WRITE, MAP_SHARED, gpiofd, 0);
 	
@@ -32,16 +32,16 @@ int setupio(){
 
 void writepin(int pin, int value){
 
-	gpio[(pin > 9)] = 1;
+	gpio[(pin > 9)] = 1; /* Set pin to output mode */
 	
-	gpio[(10 - (value * 3))] = (1<<(pin));
+	gpio[(10 - (value * 3))] = (1<<(pin)); /* Write to pin */
 
 };
 
 void getpin(int pin){
 
-	gpio[(pin > 9)] = 0;
+	gpio[(pin > 9)] = 0; /* Set pin to input mode */
 	
-	return (gpio[13] & (1<<(pin)));
+	return (gpio[13] & (1<<(pin))); /* Read from pin */
 
 };
