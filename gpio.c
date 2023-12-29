@@ -25,6 +25,8 @@ int setupio(){
 	if (gpiofd < 0) { return -1; }; /* Fail if unable to open */
 
 	gpio = (unsigned int *)mmap(0, 4096, PROT_READ+PROT_WRITE, MAP_SHARED, gpiofd, 0);
+
+	if(gpio == NULL){ return -1; };
 	
 	return 0;
 
