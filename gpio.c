@@ -20,14 +20,13 @@ int closein(void);
 int gpiofd; /* File descriptor for /dev/gpiomem (mmap'd pinout) */
 unsigned int *gpio; /* Pointer to mmap'd pinout */
 
+/* Bloated Linux wrappers */
+struct gpiochip_info info;
+
 int setupio(){
 
-	gpiofd = open("/dev/gpiochip0", O_RDWR);
+	gpiofd = open("/dev/gpiochip0", O_RDONLY);
 	if (gpiofd < 0) { return -1; }; /* Fail if unable to open */
-
-	gpio = (unsigned int *)mmap(0, 4096, PROT_READ+PROT_WRITE, MAP_SHARED, gpiofd, 0);
-
-	if(gpio == NULL){ return -1; };
 	
 	return 0;
 
@@ -41,16 +40,50 @@ int closeio(){
 
 void writepin(int pin, int value){
 
-	gpio[(pin > 9)] = 1; /* Set pin to output mode */
+	if(setupio() != 0){ return; };
 	
-	gpio[(10 - (value * 3))] = (1<<(pin)); /* Write to pin */
+	struct gpiohandle_request request;
+	
+	/* Setup request */
+	request.lineoffsets[0] = pin;
+	request.lines = 1;
+	request.flags = GPIOHANDLE_REQUEST_OUTPUT;
+
+	ioctl(gpiofd, GPIO_GET_LINEHANDLE_IOCTL, &request); /* Output value to pin */
+
+	closeio();
+	
+	struct gpiohandle_data data;
+
+	/* Setup data */
+	data.values[0] = value;
+	ioctl(request.fd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data);
+
+	close(request.fd);
 
 };
 
 int getpin(int pin){
 
-	gpio[(pin > 9)] = 0; /* Set pin to input mode */
+	if(setupio() != 0){ return -1; };
 	
-	return (gpio[13] & (1<<(pin))); /* Read from pin */
+	struct gpiohandle_request request;
+	
+	/* Setup request */
+	request.lineoffsets[0] = pin;
+	request.lines = 1;
+	request.flags = GPIOHANDLE_REQUEST_INPUT;
+
+	ioctl(gpiofd, GPIO_GET_LINEHANDLE_IOCTL, &request); /* Output value to pin */
+
+	closeio();
+	
+	struct gpiohandle_data data;
+
+	ioctl(request.fd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data);
+
+	close(request.fd);
+
+	return data.values[0];
 
 };
