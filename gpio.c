@@ -9,6 +9,10 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <linux/gpio.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <stdlib.h>
 
 #include "gpio.h"
 
