@@ -15,7 +15,7 @@
 int setupio(void);
 void writepin(int pin, int value);
 int getpin(int pin);
-int closein(void);
+int closeio(void);
 
 int gpiofd; /* File descriptor for /dev/gpiomem (mmap'd pinout) */
 unsigned int *gpio; /* Pointer to mmap'd pinout */
