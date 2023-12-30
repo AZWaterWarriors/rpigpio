@@ -18,7 +18,6 @@ int getpin(int pin);
 int closeio(void);
 
 int gpiofd; /* File descriptor for /dev/gpiomem (mmap'd pinout) */
-unsigned int *gpio; /* Pointer to mmap'd pinout */
 
 /* Bloated Linux wrappers */
 struct gpiochip_info info;
