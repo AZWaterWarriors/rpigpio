@@ -15,7 +15,6 @@ int getpin(int pin);
 int closeio(void);
 
 extern int gpiofd;
-extern unsigned int *gpio;
 extern struct gpiochip_info info;
 
 #endif
